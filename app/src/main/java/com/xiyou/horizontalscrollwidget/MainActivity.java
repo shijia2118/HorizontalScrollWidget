@@ -21,9 +21,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //实例化组件
         HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget = findViewById(R.id.test);
+        //实例化适配器
         adapter = new ColumnAdapter(MainActivity.this);
+        //获取数据
         mDataList = DataFactory.loadData();
+        //链式调用
         horizontalScrollWidget
                 .setAdapter(adapter)
                 .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
