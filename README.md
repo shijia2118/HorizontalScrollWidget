@@ -9,4 +9,4 @@
 3.指示器(包括滑块)的样式可配置;
 
 ### 效果图
-![image](https://github.com/shijia2118/images/blob/main/horizontal_scroll_widget_screen_shot.png?raw=true)
+<img src="https://github.com/shijia2118/images/blob/main/horizontal_scroll_widget_screen_shot.png?raw=true" width="100px">
