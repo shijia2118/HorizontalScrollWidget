@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<resources>
+    <declare-styleable name="HorizontalScrollWidget">
+        <!--每页列数-->
+        <attr name="columns" format="integer"/>
+
+        <!--每页行数-->
+        <attr name="rows" format="integer"/>
+
+        <!--指示器轨道颜色-->
+        <attr name="track_color" format="color|reference"/>
+
+        <!--指示器滑块颜色-->
+        <attr name="thumb_color" format="color|reference"/>
+
+        <!--滚动条宽度-->
+        <attr name="scroll_bar_width" format="dimension|reference"/>
+
+        <!--滚动条高度-->
+        <attr name="scroll_bar_height" format="dimension|reference"/>
+
+        <!--滚动条圆角度数-->
+        <attr name="radius" format="dimension|reference"/>
+
+        <!--滑块宽度-->
+        <attr name="thumb_width" format="dimension|reference"/>
+
+        <!--滚动条是否在金刚区内部-->
+        <attr name="attach_to_inner" format="boolean"/>
+
+        <!--水平滑动区域背景-->
+        <attr name="background" format="reference"/>
+
+        <!--行间距-->
+        <attr name="row_spacing" format="dimension|reference"/>
+
+        <!--滚动条距离顶部外边距-->
+        <attr name="indicator_margin_top" format="dimension|reference"/>
+
+        <!--滚动条距离底部外边距-->
+        <attr name="indicator_margin_bottom" format="dimension|reference"/>
+
+        <!--左侧内边距-->
+        <attr name="padding_left" format="dimension|reference"/>
+
+        <!--右侧内边距-->
+        <attr name="padding_right" format="dimension|reference"/>
+
+        <!--顶部内边距-->
+        <attr name="padding_top" format="dimension|reference"/>
+
+        <!--底部内边距-->
+        <attr name="padding_bottom" format="dimension|reference"/>
+
+    </declare-styleable>
+
+</resources>
