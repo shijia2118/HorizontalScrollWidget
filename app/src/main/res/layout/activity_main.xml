@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cus="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
     tools:context=".MainActivity">
 
     <com.xiyou.mylibrary.HorizontalScrollWidget
         android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_margin="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        cus:row_spacing="15dp"
+        cus:background="@drawable/card_bg_r4"
+        cus:attach_to_inner="false"
+        cus:padding_top="8dp"
+        cus:padding_bottom="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

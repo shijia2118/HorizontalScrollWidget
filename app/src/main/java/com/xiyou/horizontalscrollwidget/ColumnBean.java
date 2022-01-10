@@ -9,12 +9,10 @@ package com.xiyou.horizontalscrollwidget;
 public class ColumnBean {
     private int icon;
     private String text;
-    private String url;
 
-    public ColumnBean(int icon, String text, String url) {
+    public ColumnBean(int icon, String text) {
         this.icon = icon;
         this.text = text;
-        this.url = url;
     }
 
     public int getIcon() {
@@ -33,11 +31,4 @@ public class ColumnBean {
         this.text = text;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }
