@@ -29,5 +29,40 @@ dependencies {
 ```
 [![](https://jitpack.io/v/shijia2118/HorizontalScrollWidget.svg)](https://jitpack.io/#shijia2118/HorizontalScrollWidget)
 
+### 使用
+step 1:xml中添加布局:
+```
+<com.xiyou.mylibrary.HorizontalScrollWidget
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        cus:row_spacing="15dp"
+        cus:background="@drawable/card_bg_r4"
+        cus:attach_to_inner="false"
+        cus:padding_top="8dp"
+        cus:padding_bottom="10dp"/>
+```
+step 2:自定义item的布局文件,也可以直接使用本库demo中的item_layout.xml.
+
+step 3:自定义适配器adapter,并且继承ColumnBaseAdapter(也可以直接使用本库demo中的CustomAdapter).
+
+step 4:java代码中使用:
+```
+//实例化组件
+HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget = findViewById(R.id.test);
+//实例化适配器
+adapter = new ColumnAdapter(MainActivity.this);
+//获取数据
+mDataList = DataFactory.loadData();
+//链式调用
+horizontalScrollWidget
+	.setAdapter(adapter)
+        .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
+        .setData(mDataList);
+```
+具体使用请查看demo.
+
 
   
