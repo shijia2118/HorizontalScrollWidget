@@ -166,6 +166,15 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         adapter.setRecyclerView(recyclerView);
     }
 
+    /**
+     * item数量小于1页时,隐藏指示器
+     */
+    private void setIndicatorVisibility(){
+        int pageSize = rows * columns;
+        if(mList.size() <= pageSize) roundedLinesIndicator.setVisibility(GONE);
+        else roundedLinesIndicator.setVisibility(VISIBLE);
+    }
+
 
     /**
      * item数据
@@ -174,6 +183,7 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     public void setData(List<T> list){
         if(list == null) mList = new ArrayList<>();
         else this.mList = list;
+        setIndicatorVisibility();
         adapter.setData(mList);
     }
 

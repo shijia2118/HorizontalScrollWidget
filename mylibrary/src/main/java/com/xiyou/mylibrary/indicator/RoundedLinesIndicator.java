@@ -116,7 +116,6 @@ public class RoundedLinesIndicator extends View {
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
-//            if(onHorizontalScrollListener != null) onHorizontalScrollListener
         }
 
         @Override
