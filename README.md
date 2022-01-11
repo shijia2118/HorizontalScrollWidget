@@ -29,6 +29,7 @@ dependencies {
 	implementation 'com.github.shijia2118:HorizontalScrollWidget:1.0.1'
 }
 ```
+
 [![](https://jitpack.io/v/shijia2118/HorizontalScrollWidget.svg)](https://jitpack.io/#shijia2118/HorizontalScrollWidget)
 
 ### 使用
@@ -51,6 +52,7 @@ step 2:自定义item的布局文件,也可以直接使用本库demo中的item_la
 step 3:自定义适配器adapter,并且继承ColumnBaseAdapter(也可以直接使用本库demo中的CustomAdapter).
 
 step 4:java代码中使用:
+
 ```
 //实例化组件
 HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget = findViewById(R.id.test);
