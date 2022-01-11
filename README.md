@@ -8,6 +8,8 @@
 
 3.指示器(包括滑块)的样式可配置;
 
+4.item默认按分页展示;
+
 ### 效果图
 <img src="https://github.com/shijia2118/images/blob/main/horizontal_scroll_widget_screen_shot.png?raw=true" width="200px">
 
