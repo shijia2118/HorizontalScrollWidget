@@ -3,7 +3,6 @@ package com.xiyou.horizontalscrollwidget;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.xiyou.mylibrary.HorizontalScrollWidget;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private ColumnAdapter adapter;
+    HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget;
     List<ColumnBean> mDataList = new ArrayList<>();
 
     @Override
@@ -22,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //实例化组件
-        HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget = findViewById(R.id.test);
+        horizontalScrollWidget = findViewById(R.id.test);
         //实例化适配器
-        adapter = new ColumnAdapter(MainActivity.this);
+        ColumnAdapter adapter = new ColumnAdapter(MainActivity.this);
         //获取数据
         mDataList = DataFactory.loadData();
         //链式调用
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private final OnHorizontalItemClickListener onHorizontalItemClickListener = new OnHorizontalItemClickListener() {
         @Override
         public void onItemClick(int position) {
-            Toast.makeText(MainActivity.this, mDataList.get(position).getText(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, horizontalScrollWidget.getDataList().get(position).getText(), Toast.LENGTH_SHORT).show();
         }
     };
 }

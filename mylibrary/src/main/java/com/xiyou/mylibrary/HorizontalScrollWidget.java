@@ -3,6 +3,7 @@ package com.xiyou.mylibrary;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -52,33 +53,38 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     private int paddingRight; //右侧内边距
     private int paddingTop; //顶部内边距
     private int paddingBottom; //底部内边距
+    private boolean pageMode; //分页模式,默认true
 
+    private final Context mContext;
     private List<T> mList;
     RecyclerView recyclerView;
     RoundedLinesIndicator roundedLinesIndicator;
-    private OnHorizontalItemClickListener onHorizontalItemClickListener;
     CBA adapter; //金刚区适配器
 
     public HorizontalScrollWidget(Context context) {
         super(context);
+        this.mContext = context;
     }
 
     public HorizontalScrollWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
-        parseAttrs(context,attrs);
-        initView(context);
+        this.mContext = context;
+        parseAttrs(attrs);
+        initView();
     }
 
     public HorizontalScrollWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        parseAttrs(context,attrs);
-        initView(context);
+        this.mContext = context;
+        parseAttrs(attrs);
+        initView();
     }
 
-    private void parseAttrs(Context context, AttributeSet attrs) {
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.HorizontalScrollWidget);
+    private void parseAttrs(AttributeSet attrs) {
+        TypedArray array = mContext.obtainStyledAttributes(attrs, R.styleable.HorizontalScrollWidget);
         rows = array.getInteger(R.styleable.HorizontalScrollWidget_rows,DEFAULT_ROWS);
         columns = array.getInteger(R.styleable.HorizontalScrollWidget_columns,DEFAULT_COLUMNS);
+        pageMode = array.getBoolean(R.styleable.HorizontalScrollWidget_pageMode,true);
         background = array.getResourceId(R.styleable.HorizontalScrollWidget_background,-1);
         rowSpacing = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_row_spacing,0);
         isAttachToInner = array.getBoolean(R.styleable.HorizontalScrollWidget_attach_to_inner,true);
@@ -91,8 +97,8 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         scrollBarWidth = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_scroll_bar_width,DEFAULT_SCROLL_BAR_WIDTH);
         scrollBarHeight = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_scroll_bar_height,DEFAULT_SCROLL_BAR_HEIGHT);
         indicatorMarginTop = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_margin_top,DEFAULT_INDICATOR_MARGIN_TOP);
-        trackColor = array.getInteger(R.styleable.HorizontalScrollWidget_track_color,context.getResources().getColor(R.color.default_track_color));
-        thumbColor = array.getInteger(R.styleable.HorizontalScrollWidget_thumb_color,context.getResources().getColor(R.color.default_thumb_color));
+        trackColor = array.getInteger(R.styleable.HorizontalScrollWidget_track_color,mContext.getResources().getColor(R.color.default_track_color));
+        thumbColor = array.getInteger(R.styleable.HorizontalScrollWidget_thumb_color,mContext.getResources().getColor(R.color.default_thumb_color));
         indicatorMarginBottom = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_margin_bottom,DEFAULT_INDICATOR_MARGIN_BOTTOM);
 
         array.recycle();
@@ -100,32 +106,30 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
 
     /**
      * 初始化视图
-     * @param context:上下文
      */
-    private void initView(Context context){
+    private void initView(){
         setOrientation(LinearLayout.VERTICAL);
         setGravity(Gravity.CENTER_HORIZONTAL);
         setLayoutParams(new LayoutParams(-1, -2));
 
-        recyclerView = new RecyclerView(context);
+        recyclerView = new RecyclerView(mContext);
         //为recyclerView适配宽高
         LayoutParams recyclerViewParams = new LayoutParams(-1,-2);
         recyclerView.setLayoutParams(recyclerViewParams);
-        //设置背景
-        setBackground(context);
+
         //设置行间距
-        recyclerView.addItemDecoration(new RowSpacingItemDecoration(rowSpacing,context));
+        recyclerView.addItemDecoration(new RowSpacingItemDecoration(rowSpacing,mContext));
         //设置内边距
-        recyclerView.setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom);
+        setPadding();
         //水平网格布局
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,rows,RecyclerView.HORIZONTAL,false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,rows,RecyclerView.HORIZONTAL,false);
         gridLayoutManager.isAutoMeasureEnabled();
         recyclerView.setLayoutManager(gridLayoutManager);
         //滑动到顶部或底部时,蓝色背景效果
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         //圆角矩形指示器
-        roundedLinesIndicator = new RoundedLinesIndicator(context);
-        setScrollBar();
+        roundedLinesIndicator = new RoundedLinesIndicator(mContext);
+        setIndicator();
 
         addView(recyclerView);
         addView(roundedLinesIndicator);
@@ -134,18 +138,31 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
 
     /**
      * 设置滑动区域背景
-     * @param context:上下文
      */
-    private void setBackground(Context context){
+    private void setBackground(){
         if(background==-1) return;
-        if(isAttachToInner) setBackground(context.getResources().getDrawable(background));
-        else recyclerView.setBackground(context.getResources().getDrawable(background));
+        if(mList == null || mList.isEmpty()) return;
+        if(isAttachToInner) setBackground(mContext.getResources().getDrawable(background));
+        else recyclerView.setBackground(mContext.getResources().getDrawable(background));
+    }
+
+    /**
+     * 设置内边距
+     */
+    private void setPadding(){
+        if(isAttachToInner) {
+            if(background != -1 && paddingBottom == 0) paddingBottom = 30;
+            setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom);
+        }
+        else {
+            recyclerView.setPadding(paddingLeft,paddingTop,paddingRight,paddingBottom);
+        }
     }
 
     /**
      * 设置滚动条
      */
-    private void setScrollBar(){
+    private void setIndicator(){
         LayoutParams indicatorParams = new LayoutParams(scrollBarWidth,scrollBarHeight);
         indicatorParams.topMargin = indicatorMarginTop;
         indicatorParams.bottomMargin = indicatorMarginBottom;
@@ -175,6 +192,52 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         else roundedLinesIndicator.setVisibility(VISIBLE);
     }
 
+    /**
+     * 重新排列数据，使数据转换成分页模式
+     * 原始数据：
+     * 1 3 5 7 9   11 13 15
+     * 2 4 6 8 10  12 14 16
+     * ==============================
+     * 转换之后：
+     * 1 2 3 4 5   11 12 13 14 15
+     * 6 7 8 9 10  16
+     */
+    private List<T> rearrange(List<T> data) {
+        if (rows <= 1) return data;
+        if (data == null || data.isEmpty()) return data;
+
+        int pageSize = rows * columns;//每页item有多少个
+        int size = data.size(); //原数据个数
+        //如果数据少于一行
+        if (size <= columns) return new ArrayList<>(data);
+        List<T> newList = new ArrayList<>();
+        int newSize; //转换后的总数量，包括空数据
+        if (size < pageSize) {
+            //小于1页
+            newSize = size < columns ? size * rows : pageSize;
+        } else if (size % pageSize == 0) {
+            newSize = size;
+        } else {
+            newSize = size % pageSize < columns
+                    ? (size / pageSize) * pageSize + size % pageSize * rows
+                    : (size / pageSize + 1) * pageSize;
+        }
+        //类似置换矩阵
+        for (int i = 0; i < newSize; i++) {
+            int pageIndex = i / pageSize;
+            int columnIndex = (i - pageSize * pageIndex) / rows;
+            int rowIndex = (i - pageSize * pageIndex) % rows;
+            int destIndex = (rowIndex * columns + columnIndex) + pageIndex * pageSize;
+
+            if (destIndex >= 0 && destIndex < size) {
+                newList.add(data.get(destIndex));
+            } else {
+                newList.add(null);
+            }
+        }
+        return newList;
+    }
+
 
     /**
      * item数据
@@ -183,7 +246,10 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     public void setData(List<T> list){
         if(list == null) mList = new ArrayList<>();
         else this.mList = list;
+        //设置背景
+        setBackground();
         setIndicatorVisibility();
+        if(pageMode) mList = rearrange(mList); //分页模式下,需要重新排序
         adapter.setData(mList);
     }
 
@@ -204,9 +270,16 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
      * @return HorizontalScrollWidget
      */
     public HorizontalScrollWidget<T,CBA> addOnHorizontalItemClickListener(OnHorizontalItemClickListener listener){
-        this.onHorizontalItemClickListener = listener;
-        adapter.setOnHorizontalItemClickListener(onHorizontalItemClickListener);
+        adapter.setOnHorizontalItemClickListener(listener);
         return this;
+    }
+
+    /**
+     * 获取列表数据
+     * @return List
+     */
+    public List<T> getDataList(){
+        return mList;
     }
 
 

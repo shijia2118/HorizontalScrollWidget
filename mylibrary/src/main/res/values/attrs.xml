@@ -53,6 +53,9 @@
         <!--底部内边距-->
         <attr name="padding_bottom" format="dimension|reference"/>
 
+        <!--分页模式-->
+        <attr name="pageMode" format="boolean"/>
+
     </declare-styleable>
 
 </resources>

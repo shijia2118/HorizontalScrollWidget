@@ -31,13 +31,9 @@ public class RoundedLinesIndicator extends View {
     private int scrollBarWidth; //滚动条宽度
     private int scrollBarHeight; //滚动条高度(同滑块高度)
     private int mThumbWidth;//滑块宽度
-    private float canScrollDistance;
 
-    private float mThumbScale = 0f;
-    private float mScrollScale = 0f;
+    private float canScrollDistance;
     private float mScrollOffset;
-    //当前滚动条位置：起点、滚动中、终点
-    private int mScrollLocation = SCROLL_LOCATION_START;
 
     private RecyclerView mRecyclerView;
     private OnHorizontalScrollListener onHorizontalScrollListener;
@@ -138,7 +134,7 @@ public class RoundedLinesIndicator extends View {
         //RecyclerView实际宽度
         float mScrollRange = mRecyclerView.computeHorizontalScrollRange();
         if (mScrollRange != 0){
-            mThumbScale = mScrollExtent / mScrollRange;
+            float mThumbScale = mScrollExtent / mScrollRange;
         }
 
         //RecyclerView可以滚动的距离
@@ -147,8 +143,10 @@ public class RoundedLinesIndicator extends View {
         //RecyclerView已经滚动的距离
         mScrollOffset = mRecyclerView.computeHorizontalScrollOffset();
         if (mScrollRange != 0){
-            mScrollScale = mScrollOffset / mScrollRange;
+            float mScrollScale = mScrollOffset / mScrollRange;
         }
+        //当前滚动条位置：起点、滚动中、终点
+        int mScrollLocation = SCROLL_LOCATION_START;
         if (mScrollOffset == 0){
             mScrollLocation = SCROLL_LOCATION_START;
         }else if (canScrollDistance == mScrollOffset){
