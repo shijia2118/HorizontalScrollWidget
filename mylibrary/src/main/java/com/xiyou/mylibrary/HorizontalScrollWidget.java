@@ -3,7 +3,6 @@ package com.xiyou.mylibrary;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -123,14 +122,12 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         setPadding();
         //水平网格布局
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext,rows,RecyclerView.HORIZONTAL,false);
-        gridLayoutManager.isAutoMeasureEnabled();
         recyclerView.setLayoutManager(gridLayoutManager);
         //滑动到顶部或底部时,蓝色背景效果
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         //圆角矩形指示器
         roundedLinesIndicator = new RoundedLinesIndicator(mContext);
         setIndicator();
-
         addView(recyclerView);
         addView(roundedLinesIndicator);
 
