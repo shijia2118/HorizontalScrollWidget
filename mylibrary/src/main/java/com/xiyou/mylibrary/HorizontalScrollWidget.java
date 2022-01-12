@@ -130,7 +130,6 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         setIndicator();
         addView(recyclerView);
         addView(roundedLinesIndicator);
-
     }
 
     /**
