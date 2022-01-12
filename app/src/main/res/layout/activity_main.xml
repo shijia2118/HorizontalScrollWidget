@@ -17,8 +17,9 @@
         cus:row_spacing="15dp"
         cus:background="@drawable/card_bg_r4"
         cus:attach_to_inner="false"
-        cus:padding_top="8dp"
-        cus:pageMode="false"
-        cus:padding_bottom="10dp"/>
+        cus:pageMode="true"
+        cus:rows="2"
+        cus:columns="5"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
