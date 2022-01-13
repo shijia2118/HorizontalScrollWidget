@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
                 .setAdapter(adapter)
                 .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
                 .setData(mDataList);
-
     }
 
     /**
