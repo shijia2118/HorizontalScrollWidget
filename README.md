@@ -66,6 +66,29 @@ horizontalScrollWidget
         .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
         .setData(mDataList);
 ```
+
+### 属性
+| Attributes                | format               | describe                                                         |
+|---------------------------|----------------------|------------------------------------------------------------------|
+| columns                   | integer              | 每页列数                                                             |
+| rows                      | integer              | 行数                                                               |
+| track\_color              | color\|reference     | 圆角矩形指示器轨道颜色                                                      |
+| thumb\_color              | color\|reference     | 圆角矩形指示器滑块颜色                                                      |
+| scroll\_bar\_width        | dimension\|reference |  圆角矩形指示器轨道宽度（默认120px）                                       |
+| scroll\_bar\_height       | dimension\|reference | 圆角矩形指示器轨道高度（默认9px，同滑块高度）                                         |
+| radius                    | dimension\|reference | 圆角矩形指示器圆角度数（默认5px）                                               |
+| thumb\_width              | dimension\|reference | 圆角矩形指示器滑块宽度（默认40px）                                              |
+| attach\_to\_inner         | boolean              | 滚动条是否在内容里面（默认true）                                               |
+| background                | reference            | 背景                                                               |
+| row\_spacing              | dimension\|reference | 行间距                                                              |
+| indicator\_margin\_top    | dimension\|reference | 指示器顶部边距                                                          |
+| indicator\_margin\_bottom | dimension\|reference | 指示器底部距离                                                          |
+| padding\_left             | dimension\|reference | 滑动区域左侧内边距                                                        |
+| padding\_right            | dimension\|reference | 滑动区域右侧内边距                                                        |
+| padding\_top              | dimension\|reference | 滑动区域顶部内边距                                                        |
+| padding\_bottom           | dimension\|reference | 滑动区域底部内边距                                                        |
+| pageMode                  | dimension\|reference | 分页模式。若为true，数据按行排序，排满1行，再排下一行；若为false，数据按列排序，排满1列，再排下一列。默认为true。 |
+
 具体使用请查看demo.
 
 
