@@ -26,6 +26,7 @@ public class RowSpacingItemDecoration extends RecyclerView.ItemDecoration {
             int rows = gridLayoutManager.getSpanCount(); //行数
             int rowPos = position % rows; //所在的行
 
+            //均分垂直间距
             float avg = (rows - 1) * space * 1.0f / rows;
             outRect.top = (int) (rowPos * (space - avg));
             outRect.bottom = (int) (avg - (rowPos * (space - avg)));
