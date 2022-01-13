@@ -54,6 +54,7 @@ public abstract class ColumnBaseAdapter<T> extends RecyclerView.Adapter<MyViewHo
                 }
             });
         }
+
     }
 
     @Override

@@ -25,8 +25,10 @@ public class RowSpacingItemDecoration extends RecyclerView.ItemDecoration {
             GridLayoutManager gridLayoutManager = (GridLayoutManager) parent.getLayoutManager();
             int rows = gridLayoutManager.getSpanCount(); //行数
             int rowPos = position % rows; //所在的行
-            outRect.top = space;
-            if(rowPos == 0) outRect.top = 0; //第1行不设置上边距
+
+            float avg = (rows - 1) * space * 1.0f / rows;
+            outRect.top = (int) (rowPos * (space - avg));
+            outRect.bottom = (int) (avg - (rowPos * (space - avg)));
         }
     }
 }

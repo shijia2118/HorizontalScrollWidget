@@ -18,8 +18,6 @@
         cus:background="@drawable/card_bg_r4"
         cus:attach_to_inner="false"
         cus:pageMode="true"
-        cus:rows="2"
-        cus:columns="5"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
