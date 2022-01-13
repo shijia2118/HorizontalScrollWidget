@@ -18,6 +18,8 @@
         cus:background="@drawable/card_bg_r4"
         cus:attach_to_inner="false"
         cus:pageMode="true"
+        cus:padding_top="10dp"
+        cus:padding_bottom="10dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
