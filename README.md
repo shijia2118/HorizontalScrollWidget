@@ -66,6 +66,13 @@ horizontalScrollWidget
         .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
         .setData(mDataList);
 ```
+### 方法
+| 方法名                              | 返回类型    | 描述           |
+|----------------------------------|---------|--------------|
+| setAdapter                       | this    | 设置适配器        |
+| addOnHorizontalItemClickListener | this    | item点击事件     |
+| getDataList                      | List<T> | 获取数据列表       |
+| setData<T>                       | void    | 重新设置column数据 |
 
 ### 属性
 | Attributes                | format               | describe                                                         |
