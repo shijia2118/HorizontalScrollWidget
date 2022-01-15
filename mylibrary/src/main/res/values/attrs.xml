@@ -56,6 +56,15 @@
         <!--分页模式-->
         <attr name="pageMode" format="boolean"/>
 
+        <!-- 未选中时圆点尺寸-->
+        <attr name="dots_normal_size" format="dimension|reference"/>
+
+        <!--选中时圆点尺寸-->
+        <attr name="dots_selected_size" format="dimension|reference"/>
+
+        <!--圆点间距-->
+        <attr name="dots_space" format="dimension|reference"/>
+
     </declare-styleable>
 
 </resources>

@@ -17,6 +17,7 @@ public class DataFactory {
         dataList.add(new ColumnBean(R.mipmap.pic_8, "休闲娱乐"));
         dataList.add(new ColumnBean(R.mipmap.pic_9, "美容美发"));
         dataList.add(new ColumnBean(R.mipmap.pic_10, "酒店"));
+
         dataList.add(new ColumnBean(R.mipmap.pic_11, "淡优选农产品"));
         dataList.add(new ColumnBean(R.mipmap.pic_12, "生鲜零售"));
         dataList.add(new ColumnBean(R.mipmap.pic_13, "餐饮"));
@@ -27,6 +28,16 @@ public class DataFactory {
         dataList.add(new ColumnBean(R.mipmap.pic_18, "网络状态"));
         dataList.add(new ColumnBean(R.mipmap.pic_19, "电影"));
         dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+
+        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
+
+
         return dataList;
     }
 }
