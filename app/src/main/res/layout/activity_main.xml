@@ -58,6 +58,11 @@
             cus:pageMode="true"
             cus:padding_top="10dp"
             cus:padding_bottom="10dp"
+            cus:indicator_width="10dp"
+            cus:indicator_height="5dp"
+            cus:indicator_radius="3dp"
+            cus:open_indicator_scale="true"
+            cus:indicator_space="6dp"
             />
     </LinearLayout>
 

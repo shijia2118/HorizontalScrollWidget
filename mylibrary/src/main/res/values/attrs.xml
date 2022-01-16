@@ -56,14 +56,20 @@
         <!--分页模式-->
         <attr name="pageMode" format="boolean"/>
 
-        <!-- 未选中时圆点尺寸-->
-        <attr name="dots_normal_size" format="dimension|reference"/>
+        <!-- 指示器宽度-->
+        <attr name="indicator_width" format="dimension|reference"/>
 
-        <!--选中时圆点尺寸-->
-        <attr name="dots_selected_size" format="dimension|reference"/>
+        <!--指示器高度-->
+        <attr name="indicator_height" format="dimension|reference"/>
 
-        <!--圆点间距-->
-        <attr name="dots_space" format="dimension|reference"/>
+        <!--指示器圆角度数-->
+        <attr name="indicator_radius" format="dimension|reference"/>
+
+        <!--指示器间距-->
+        <attr name="indicator_space" format="dimension|reference"/>
+
+        <!--指示器选中后是否需要改变尺寸-->
+        <attr name="open_indicator_scale" format="boolean"/>
 
     </declare-styleable>
 

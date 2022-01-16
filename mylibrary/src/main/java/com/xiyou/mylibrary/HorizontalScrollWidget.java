@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xiyou.mylibrary.adapter.ColumnBaseAdapter;
+import com.xiyou.mylibrary.indicator.BaseIndicator;
 import com.xiyou.mylibrary.indicator.CircleIndicator;
 import com.xiyou.mylibrary.indicator.RoundedLinesIndicator;
 import com.xiyou.mylibrary.itemDecoration.RowSpacingItemDecoration;
@@ -30,8 +31,6 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
 
     private final static int DEFAULT_COLUMNS = 5; //默认列数
     private final static int DEFAULT_ROWS = 2;  //默认行数
-    private final static int DEFAULT_DOTS_NORMAL_SIZE = 15; //未选中时圆点尺寸
-    private final static int DEFAULT_DOTS_SELECTED_SIZE = 18; //选中时圆点尺寸
     private final static int DEFAULT_THUMB_WIDTH = 40; //滑块默认宽度
     private final static int DEFAULT_SCROLL_BAR_RADIUS = 5; //滚动条默认圆角
     private final static int DEFAULT_SCROLL_BAR_WIDTH = 120; //滚动条默认宽度
@@ -57,9 +56,12 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     private int paddingTop; //顶部内边距
     private int paddingBottom; //底部内边距
     private boolean pageMode; //分页模式,默认true
-    private int dotsNormalSize; //未选中时圆点尺寸
-    private int dotsSelectedSize; //选中时圆点尺寸
-    private int dotsSpace; //圆点间距
+    private boolean openIndicatorScale; //指示器选中后,是否改变尺寸
+    private int indicatorWidth; //指示器宽度
+    private int indicatorHeight; //指示器高度
+    private int indicatorRadius; //指示器圆角度数
+    private int indicatorSpace; //指示器间距
+
 
     private final Context mContext;
     private List<T> mList;
@@ -95,6 +97,12 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         rowSpacing = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_row_spacing,0);
         isAttachToInner = array.getBoolean(R.styleable.HorizontalScrollWidget_attach_to_inner,true);
 
+        indicatorSpace = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_space,12);
+        indicatorWidth = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_width,45);
+        indicatorHeight = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_height,6);
+        indicatorRadius = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_radius,3);
+        openIndicatorScale = array.getBoolean(R.styleable.HorizontalScrollWidget_open_indicator_scale,false);
+
         paddingTop = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_padding_top,0);
         paddingLeft = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_padding_left,0);
         paddingRight = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_padding_right,0);
@@ -106,10 +114,6 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         scrollBarHeight = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_scroll_bar_height,DEFAULT_SCROLL_BAR_HEIGHT);
         trackColor = array.getInteger(R.styleable.HorizontalScrollWidget_track_color,mContext.getResources().getColor(R.color.default_track_color));
         thumbColor = array.getInteger(R.styleable.HorizontalScrollWidget_thumb_color,mContext.getResources().getColor(R.color.default_thumb_color));
-
-        dotsSpace = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_dots_space,18);
-        dotsNormalSize = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_dots_normal_size,DEFAULT_DOTS_NORMAL_SIZE);
-        dotsSelectedSize = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_dots_selected_size,DEFAULT_DOTS_SELECTED_SIZE);
 
         indicatorMarginTop = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_margin_top,DEFAULT_INDICATOR_MARGIN_TOP);
         indicatorMarginBottom = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_margin_bottom,DEFAULT_INDICATOR_MARGIN_BOTTOM);
@@ -189,7 +193,7 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
      * 设置圆点滚动条
      */
     private void setCircleIndicator(){
-        CircleIndicator indicator = (CircleIndicator) mIndicator;
+        BaseIndicator indicator = (BaseIndicator) mIndicator;
         LayoutParams indicatorParams = new LayoutParams(-2,-2);
         indicatorParams.topMargin = indicatorMarginTop;
         indicatorParams.bottomMargin = indicatorMarginBottom;
@@ -198,9 +202,10 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         indicator.setCount(getPageNum());
         indicator.setNormalColor(mContext.getResources().getColor(R.color.default_track_color));
         indicator.setSelectedColor((mContext.getResources().getColor(R.color.default_thumb_color)));
-        indicator.setNormalSize(dotsNormalSize);
-        indicator.setSelectedSize(dotsSelectedSize);
-        indicator.setSpace(dotsSpace);
+        indicator.setOpenIndicatorScale(openIndicatorScale);
+        indicator.setIndicatorSize(indicatorWidth,indicatorHeight);
+        indicator.setSpace(indicatorSpace);
+        indicator.setIndicatorRadius(indicatorRadius);
         indicator.attachToRecyclerView(recyclerView);
     }
 
@@ -252,17 +257,6 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         List<T> newList = new ArrayList<>();
         int newSize = pageSize * (int) Math.ceil(size / (float)pageSize); //转换后的总数量，包括空数据
 
-//        if (size < pageSize) {
-//            //小于1页
-//            newSize = size < columns ? size * rows : pageSize;
-//        }
-//        else if (size % pageSize == 0) {
-//            newSize = size;
-//        } else {
-////            newSize = size % pageSize < columns
-////                    ? (size / pageSize) * pageSize + size % pageSize * rows
-////                    : (size / pageSize + 1) * pageSize;
-//        }
         //类似置换矩阵
         for (int i = 0; i < newSize; i++) {
             int pageIndex = i / pageSize;
@@ -327,7 +321,7 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         mIndicator = view;
         if(view instanceof RoundedLinesIndicator){
             setRoundedLinesIndicator();
-        }else if(mIndicator instanceof CircleIndicator){
+        }else if(mIndicator instanceof BaseIndicator){
             setCircleIndicator();
         }else {throw new RuntimeException("The indicator is null, or the types do not match!");}
         return this;
