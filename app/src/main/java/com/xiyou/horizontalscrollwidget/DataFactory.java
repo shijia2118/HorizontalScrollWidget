@@ -30,13 +30,6 @@ public class DataFactory {
         dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
 
         dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
-        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
-        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
-        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
-        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
-        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
-        dataList.add(new ColumnBean(R.mipmap.pic_20, "音乐"));
-
 
         return dataList;
     }

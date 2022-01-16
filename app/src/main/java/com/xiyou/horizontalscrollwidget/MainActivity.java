@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.xiyou.mylibrary.HorizontalScrollWidget;
 import com.xiyou.mylibrary.indicator.CircleIndicator;
-import com.xiyou.mylibrary.indicator.RoundedLinesIndicator;
 import com.xiyou.mylibrary.listener.OnHorizontalItemClickListener;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         //实例化组件
         horizontalScrollWidget = findViewById(R.id.test);
         //实例化适配器
-        ColumnAdapter adapter = new ColumnAdapter(MainActivity.this);
+        ColumnAdapter adapter = new ColumnAdapter(this);
         //获取数据
         mDataList = DataFactory.loadData();
         //链式调用
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAdapter(adapter)
                 .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
                 .setData(mDataList)
-                .setIndicator(new CircleIndicator(MainActivity.this))
+                .setIndicator(new CircleIndicator(this))
                 .build();
     }
 

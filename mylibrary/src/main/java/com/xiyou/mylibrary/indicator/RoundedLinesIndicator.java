@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.xiyou.mylibrary.listener.OnHorizontalScrollListener;
 
 public class RoundedLinesIndicator extends View {
-    private static final int SCROLL_LOCATION_START  = 1;
-    private static final int SCROLL_LOCATION_MIDDLE = 2;
-    private static final int SCROLL_LOCATION_END    = 3;
+//    private static final int SCROLL_LOCATION_START  = 1;
+//    private static final int SCROLL_LOCATION_MIDDLE = 2;
+//    private static final int SCROLL_LOCATION_END    = 3;
 
     private final Paint mPaint = new Paint();
     private final RectF trackRectF = new RectF();
@@ -133,27 +133,27 @@ public class RoundedLinesIndicator extends View {
         float mScrollExtent = mRecyclerView.computeHorizontalScrollExtent();
         //RecyclerView实际宽度
         float mScrollRange = mRecyclerView.computeHorizontalScrollRange();
-        if (mScrollRange != 0){
-            float mThumbScale = mScrollExtent / mScrollRange;
-        }
+//        if (mScrollRange != 0){
+//            float mThumbScale = mScrollExtent / mScrollRange;
+//        }
 
         //RecyclerView可以滚动的距离
         canScrollDistance = mScrollRange - mScrollExtent;
 
         //RecyclerView已经滚动的距离
         mScrollOffset = mRecyclerView.computeHorizontalScrollOffset();
-        if (mScrollRange != 0){
-            float mScrollScale = mScrollOffset / mScrollRange;
-        }
+//        if (mScrollRange != 0){
+//            float mScrollScale = mScrollOffset / mScrollRange;
+//        }
         //当前滚动条位置：起点、滚动中、终点
-        int mScrollLocation = SCROLL_LOCATION_START;
-        if (mScrollOffset == 0){
-            mScrollLocation = SCROLL_LOCATION_START;
-        }else if (canScrollDistance == mScrollOffset){
-            mScrollLocation = SCROLL_LOCATION_END;
-        }else{
-            mScrollLocation = SCROLL_LOCATION_MIDDLE;
-        }
+//        int mScrollLocation;
+//        if (mScrollOffset == 0){
+//            mScrollLocation = SCROLL_LOCATION_START;
+//        }else if (canScrollDistance == mScrollOffset){
+//            mScrollLocation = SCROLL_LOCATION_END;
+//        }else{
+//            mScrollLocation = SCROLL_LOCATION_MIDDLE;
+//        }
         postInvalidate();
     }
 
@@ -217,7 +217,7 @@ public class RoundedLinesIndicator extends View {
      * 匹配recyclerView
      * @param recyclerView:
      */
-    public void attachRecyclerView(RecyclerView recyclerView){
+    public void attachToRecyclerView(RecyclerView recyclerView){
         if (mRecyclerView == recyclerView) return;
         mRecyclerView = recyclerView;
         if (mRecyclerView != null){

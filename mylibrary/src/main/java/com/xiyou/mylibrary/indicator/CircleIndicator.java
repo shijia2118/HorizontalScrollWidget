@@ -5,20 +5,15 @@ import android.graphics.Paint;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.xiyou.mylibrary.listener.PagingScrollHelper;
 
-public class CircleIndicator extends View {
-
-    private static int DISTANCE_OF_BOUNDS; //超过这个距离后翻页
-    private static int VISIBLE_SLIDING_DISTANCE; //可见滑动距离
+public class CircleIndicator extends View implements PagingScrollHelper.onPageChangeListener {
 
     private int mNormalRadius; //未选中圆点半径
     private int mSelectedRadius; //选中圆点半径
-    private int maxRadius; //最大半径
     private int mNormalWidth; //未选中圆点直径
     private int mSelectedWidth; //选中圆点直径
     private int mNormalColor; //未选中圆点颜色
@@ -28,9 +23,9 @@ public class CircleIndicator extends View {
     private int currentPositionOfIndicator = 0; //指示器当前位置
 
     private RecyclerView mRecyclerView;
-    private float accumulatedSlipDistance = 0; // 累计滑动距离
-    private float currentSlipDistance = 0; // 本次滑动距离
-    private int slidingState = 0; // 滚动状态
+
+    PagingScrollHelper scrollHelper = new PagingScrollHelper();
+
 
     private final Paint mPaint = new Paint();
 
@@ -51,8 +46,6 @@ public class CircleIndicator extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         if (dotsNum <= 1) return; //少于1页,不显示
-        VISIBLE_SLIDING_DISTANCE = MeasureSpec.getSize(widthMeasureSpec);
-        DISTANCE_OF_BOUNDS = VISIBLE_SLIDING_DISTANCE / 3; //滑动超过1/3页面距离时翻页有效;否则滚回原位置.
         // (间距 + 未选中圆点宽度) * (总数-1) + 选中圆点的宽度
         int measuredWidth = (space + mNormalWidth) * (dotsNum - 1) + mSelectedWidth;
         int measuredHeight = Math.max(mNormalWidth,mSelectedWidth);
@@ -86,61 +79,6 @@ public class CircleIndicator extends View {
             canvas.drawCircle(x, y, radius, mPaint);
         }
     }
-
-    /**
-     * 滑动监听
-     */
-    private final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            //0: 停止滚动且手指移开; 1: 开始滚动; 2: 手指做了抛的动作（手指离开屏幕前，带着滑了一下）
-            switch (newState) {
-                case 2:
-                    slidingState = 2;
-                    break;
-                case 1:
-                    slidingState = 1;
-                    break;
-                case 0:
-                    if (currentSlipDistance == 0) break;
-                    slidingState = 0;
-                    if (currentSlipDistance < 0) { // 上页
-                        currentPositionOfIndicator = (int) Math.ceil(accumulatedSlipDistance / VISIBLE_SLIDING_DISTANCE);
-                        if (currentPositionOfIndicator * VISIBLE_SLIDING_DISTANCE - accumulatedSlipDistance < DISTANCE_OF_BOUNDS) {
-                            currentPositionOfIndicator += 1;
-                        }
-                    } else { // 下页
-                        currentPositionOfIndicator = (int) Math.ceil(accumulatedSlipDistance / VISIBLE_SLIDING_DISTANCE) + 1;
-                        if (currentPositionOfIndicator <= dotsNum) {
-                            if (accumulatedSlipDistance - (currentPositionOfIndicator - 2) * VISIBLE_SLIDING_DISTANCE < DISTANCE_OF_BOUNDS) {
-                                // 如果这一页滑出距离不足，则定位到前一页
-                                currentPositionOfIndicator -= 1;
-                            }
-                        } else {
-                            currentPositionOfIndicator = dotsNum;
-                        }
-                    }
-                    // 执行自动滚动
-                    mRecyclerView.smoothScrollBy((int) ((currentPositionOfIndicator - 1) * VISIBLE_SLIDING_DISTANCE - accumulatedSlipDistance), 0);
-                    // 修改指示器选中项
-                    currentPositionOfIndicator = currentPositionOfIndicator -1;
-                    currentSlipDistance = 0;
-                    invalidate();
-                    break;
-            }
-        }
-
-        @Override
-        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            accumulatedSlipDistance += dx;
-            if (slidingState == 1) {
-                currentSlipDistance += dx;
-            }
-
-        }
-    };
 
     /**
      * 设置未选中圆点大小
@@ -205,13 +143,17 @@ public class CircleIndicator extends View {
      * 匹配recyclerView
      * @param recyclerView:
      */
-    public void attachRecyclerView(RecyclerView recyclerView){
+    public void attachToRecyclerView(RecyclerView recyclerView){
         if (mRecyclerView == recyclerView) return;
         mRecyclerView = recyclerView;
         if (mRecyclerView != null){
-            mRecyclerView.removeOnScrollListener(onScrollListener);
-            mRecyclerView.addOnScrollListener(onScrollListener);
+            scrollHelper.setUpRecycleView(recyclerView);
+            scrollHelper.setOnPageChangeListener(this);
         }
     }
 
+    @Override
+    public void onPageChange(int index) {
+        updateCurrentPosition(index);
+    }
 }

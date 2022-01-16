@@ -3,7 +3,6 @@ package com.xiyou.mylibrary;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -183,7 +182,7 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         indicator.setThumbWidth(thumbWidth);
         indicator.setScrollBarWidth(scrollBarWidth);
         indicator.setScrollBarHeight(scrollBarHeight);
-        indicator.attachRecyclerView(recyclerView);
+        indicator.attachToRecyclerView(recyclerView);
     }
 
     /**
@@ -191,6 +190,10 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
      */
     private void setCircleIndicator(){
         CircleIndicator indicator = (CircleIndicator) mIndicator;
+        LayoutParams indicatorParams = new LayoutParams(-2,-2);
+        indicatorParams.topMargin = indicatorMarginTop;
+        indicatorParams.bottomMargin = indicatorMarginBottom;
+        indicator.setLayoutParams(indicatorParams);
 
         indicator.setCount(getPageNum());
         indicator.setNormalColor(mContext.getResources().getColor(R.color.default_track_color));
@@ -198,7 +201,7 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         indicator.setNormalSize(dotsNormalSize);
         indicator.setSelectedSize(dotsSelectedSize);
         indicator.setSpace(dotsSpace);
-        indicator.attachRecyclerView(recyclerView);
+        indicator.attachToRecyclerView(recyclerView);
     }
 
     /**
@@ -229,13 +232,6 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     }
 
     /**
-     * 初始化指示器
-     */
-    private void initIndicator(){
-
-    }
-
-    /**
      * 重新排列数据，使数据转换成分页模式
      * 原始数据：
      * 1 3 5 7 9   11 13 15
@@ -254,17 +250,19 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         //如果数据少于一行
         if (size <= columns) return new ArrayList<>(data);
         List<T> newList = new ArrayList<>();
-        int newSize; //转换后的总数量，包括空数据
-        if (size < pageSize) {
-            //小于1页
-            newSize = size < columns ? size * rows : pageSize;
-        } else if (size % pageSize == 0) {
-            newSize = size;
-        } else {
-            newSize = size % pageSize < columns
-                    ? (size / pageSize) * pageSize + size % pageSize * rows
-                    : (size / pageSize + 1) * pageSize;
-        }
+        int newSize = pageSize * (int) Math.ceil(size / (float)pageSize); //转换后的总数量，包括空数据
+
+//        if (size < pageSize) {
+//            //小于1页
+//            newSize = size < columns ? size * rows : pageSize;
+//        }
+//        else if (size % pageSize == 0) {
+//            newSize = size;
+//        } else {
+////            newSize = size % pageSize < columns
+////                    ? (size / pageSize) * pageSize + size % pageSize * rows
+////                    : (size / pageSize + 1) * pageSize;
+//        }
         //类似置换矩阵
         for (int i = 0; i < newSize; i++) {
             int pageIndex = i / pageSize;
@@ -280,7 +278,6 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         }
         return newList;
     }
-
 
     /**
      * item数据
@@ -333,7 +330,6 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         }else if(mIndicator instanceof CircleIndicator){
             setCircleIndicator();
         }else {throw new RuntimeException("The indicator is null, or the types do not match!");}
-        initIndicator();
         return this;
     }
 
