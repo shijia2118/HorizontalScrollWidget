@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -227,6 +228,10 @@ public class PagingScrollHelper {
             //滚动结束记录滚动的偏移量
             offsetY += dy;
             offsetX += dx;
+            int diffX = Math.abs(offsetX - startX);
+            //修复连续滑动超过1屏时,页面回弹的bug
+            if(diffX > mRecyclerView.getWidth() && !firstTouch)
+                mRecyclerView.stopScroll();
         }
     }
 
