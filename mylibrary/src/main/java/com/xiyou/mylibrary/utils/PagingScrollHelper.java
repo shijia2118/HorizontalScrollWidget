@@ -1,4 +1,4 @@
-package com.xiyou.mylibrary.listener;
+package com.xiyou.mylibrary.utils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget;
+    HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget1;
+    HorizontalScrollWidget<ColumnBean, ColumnAdapter> horizontalScrollWidget2;
+
     List<ColumnBean> mDataList = new ArrayList<>();
 
     @Override
@@ -22,14 +24,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //实例化组件
-        horizontalScrollWidget = findViewById(R.id.test);
+        horizontalScrollWidget1 = findViewById(R.id.test1);
+        horizontalScrollWidget2 = findViewById(R.id.test2);
+
         //实例化适配器
-        ColumnAdapter adapter = new ColumnAdapter(this);
+        ColumnAdapter adapter1 = new ColumnAdapter(this);
+        ColumnAdapter adapter2 = new ColumnAdapter(this);
+
         //获取数据
         mDataList = DataFactory.loadData();
         //链式调用
-        horizontalScrollWidget
-                .setAdapter(adapter)
+        horizontalScrollWidget1
+                .setAdapter(adapter1)
+                .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
+                .setData(mDataList)
+                .build();
+        horizontalScrollWidget2
+                .setAdapter(adapter2)
                 .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
                 .setData(mDataList)
                 .setIndicator(new CircleIndicator(this))
@@ -42,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private final OnHorizontalItemClickListener onHorizontalItemClickListener = new OnHorizontalItemClickListener() {
         @Override
         public void onItemClick(int position) {
-            Toast.makeText(MainActivity.this, horizontalScrollWidget.getDataList().get(position).getText(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, horizontalScrollWidget1.getDataList().get(position).getText(), Toast.LENGTH_SHORT).show();
         }
     };
 }

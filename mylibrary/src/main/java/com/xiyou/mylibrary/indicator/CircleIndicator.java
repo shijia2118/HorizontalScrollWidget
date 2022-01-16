@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
-import com.xiyou.mylibrary.listener.PagingScrollHelper;
+import com.xiyou.mylibrary.utils.PagingScrollHelper;
 
 public class CircleIndicator extends View implements PagingScrollHelper.onPageChangeListener {
 
