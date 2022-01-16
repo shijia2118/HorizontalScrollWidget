@@ -11,7 +11,7 @@
 4.item默认按分页展示;
 
 ### 效果图
-<img src="https://github.com/shijia2118/images/blob/main/horizontal_scroll_widget_screen_shot.png?raw=true" width="200px">
+<img src="https://github.com/shijia2118/images/blob/main/1642304605488.gif" width="200px">
 
 ### 安装
 step 1： 项目根目录的build.gradle添加如下配置：
