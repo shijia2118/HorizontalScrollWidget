@@ -28,7 +28,7 @@ allprojects {
 step 2: app下的build.gradle文件中添加依赖:
 ```
 dependencies {
-	implementation 'com.github.shijia2118:HorizontalScrollWidget:1.0.2'
+	implementation 'com.github.shijia2118:HorizontalScrollWidget:1.0.3'
 }
 ```
 
