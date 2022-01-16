@@ -10,6 +10,8 @@
 
 4.item默认按分页展示;
 
+5.支持圆角矩形和圆点指示器.
+
 ### 效果图
 <img src="https://github.com/shijia2118/images/blob/main/1642304605488.gif" width="200px">
 
@@ -20,7 +22,7 @@ allprojects {
     repositories {
 			...
         maven { url 'https://jitpack.io' }
-		}
+    }
 }
 ```
 step 2: app下的build.gradle文件中添加依赖:
@@ -62,15 +64,20 @@ adapter = new ColumnAdapter(MainActivity.this);
 mDataList = DataFactory.loadData();
 //链式调用
 horizontalScrollWidget
-	.setAdapter(adapter)
-        .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
-        .setData(mDataList);
+	.setAdapter(adapter) //适配器
+        .addOnHorizontalItemClickListener(onHorizontalItemClickListener) //item点击事件
+        .setData(mDataList) //获取数据
+        .setIndicator(new CircleIndicator(this)) //设置圆点指示器.如果不设,默认为圆角矩形
+        .build();
 ```
+本库提供了圆角矩形和圆点指示器的类,可直接使用.
+圆角矩形:RoundedLinesIndicator  圆点:CircleIndicator
 ### 方法
 | 方法名                              | 返回类型    | 描述           |
 |----------------------------------|---------|--------------|
 | setAdapter                       | this    | 设置适配器        |
 | addOnHorizontalItemClickListener | this    | item点击事件     |
+| setIndicator			   | this    | 设置指示器      |
 | getDataList                      | List<T> | 获取数据列表       |
 | setData<T>                       | void    | 重新设置column数据 |
 
