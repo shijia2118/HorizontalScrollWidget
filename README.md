@@ -69,7 +69,6 @@ horizontalScrollWidget
         .build();
 ```
 #### 注:BaseIndicator为通用指示器.可以在xml布局中通过设置不同的indicator_width,indicator_height以及radius,实现圆角矩形,矩形等不同样式指示器.默认条件下是圆点指示器.
-圆角矩形:RoundedLinesIndicator  圆点:CircleIndicator
 ### 方法
 | 方法名                              | 返回类型    | 描述           |
 |----------------------------------|---------|--------------|
@@ -100,6 +99,11 @@ horizontalScrollWidget
 | padding\_top              | dimension\|reference | 滑动区域顶部内边距                                                        |
 | padding\_bottom           | dimension\|reference | 滑动区域底部内边距                                                        |
 | pageMode                  | dimension\|reference | 分页模式。若为true，数据按行排序，排满1行，再排下一行；若为false，数据按列排序，排满1列，再排下一列。默认为true。 |
+| indicator_width           | dimension\|reference | 指示器宽度|
+| indicator_height          | dimension\|reference | 指示器高度|
+| indicator_radius          | dimension\|reference | 指示器圆角度数|
+| indicator_space           | dimension\|reference | 指示器间距|
+| open_indicator_scale           | dimension\|reference | 指示器选中后是否需要改变尺寸,默认false|
 
 具体使用请查看demo.
 
