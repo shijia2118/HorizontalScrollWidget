@@ -68,7 +68,7 @@ horizontalScrollWidget
         .setIndicator(new BaseIndicator(this)) //设置通用指示器.如果不设,默认为RoundedLinesIndicator
         .build();
 ```
-#### 注:BaseIndicator为通用指示器.可以在xml布局中通过设置不同的宽,高以及radius,实现圆角矩形,矩形等不同样式指示器.默认条件下是圆点指示器.
+#### 注:BaseIndicator为通用指示器.可以在xml布局中通过设置不同的indicator_width,indicator_height以及radius,实现圆角矩形,矩形等不同样式指示器.默认条件下是圆点指示器.
 圆角矩形:RoundedLinesIndicator  圆点:CircleIndicator
 ### 方法
 | 方法名                              | 返回类型    | 描述           |
