@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.xiyou.mylibrary.adapter.ColumnBaseAdapter;
 import com.xiyou.mylibrary.indicator.BaseIndicator;
-import com.xiyou.mylibrary.indicator.CircleIndicator;
 import com.xiyou.mylibrary.indicator.RoundedLinesIndicator;
 import com.xiyou.mylibrary.itemDecoration.RowSpacingItemDecoration;
 import com.xiyou.mylibrary.listener.OnHorizontalItemClickListener;
@@ -97,10 +96,10 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         rowSpacing = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_row_spacing,0);
         isAttachToInner = array.getBoolean(R.styleable.HorizontalScrollWidget_attach_to_inner,true);
 
-        indicatorSpace = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_space,12);
-        indicatorWidth = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_width,45);
-        indicatorHeight = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_height,6);
-        indicatorRadius = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_radius,3);
+        indicatorSpace = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_space,18);
+        indicatorWidth = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_width,15);
+        indicatorHeight = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_height,15);
+        indicatorRadius = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_radius,8);
         openIndicatorScale = array.getBoolean(R.styleable.HorizontalScrollWidget_open_indicator_scale,false);
 
         paddingTop = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_padding_top,0);

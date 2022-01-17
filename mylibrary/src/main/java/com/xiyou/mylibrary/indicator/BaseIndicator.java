@@ -11,7 +11,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 import com.xiyou.mylibrary.utils.PagingScrollHelper;
 
-public abstract class BaseIndicator extends View implements PagingScrollHelper.onPageChangeListener {
+public class BaseIndicator extends View implements PagingScrollHelper.onPageChangeListener {
 
     private int indicatorWidth; //指示器宽度
     private int indicatorSelectedWidth; //指示器选中时的宽度
@@ -28,7 +28,6 @@ public abstract class BaseIndicator extends View implements PagingScrollHelper.o
     private RecyclerView mRecyclerView;
     private final RectF rectF = new RectF();
     PagingScrollHelper scrollHelper = new PagingScrollHelper();
-
 
     private final Paint mPaint = new Paint();
 
@@ -71,23 +70,34 @@ public abstract class BaseIndicator extends View implements PagingScrollHelper.o
                 //当前为选中的指示器
                 left = (indicatorWidth + space) * i;
                 right = (indicatorWidth + space) * i + indicatorSelectedWidth;
-                bottom = Math.max(indicatorHeight,indicatorSelectedHeight);
+                bottom = indicatorSelectedHeight;
                 color = mSelectedColor;
             }else if(i > currentPositionOfIndicator){
                 //位于所选后面的指示器
                 left = space * i + indicatorSelectedWidth + indicatorWidth * (i - 1);
                 right = (indicatorWidth + space) * i + indicatorSelectedWidth;
-                bottom = indicatorHeight;
+                top = (indicatorSelectedHeight - indicatorHeight) / 2;
+                bottom = (indicatorSelectedHeight + indicatorHeight) / 2;
             }else {
                 //位于所选前面的指示器
                 left = (indicatorWidth + space) * i;
                 right = (indicatorWidth + space) * i + indicatorWidth;
-                bottom = indicatorHeight;
+                top = (indicatorSelectedHeight - indicatorHeight) / 2;
+                bottom = (indicatorSelectedHeight + indicatorHeight) / 2;
             }
             mPaint.setColor(color);
             rectF.set(left,top,right,bottom);
             canvas.drawRoundRect(rectF,indicatorRadius,indicatorRadius,mPaint);
         }
+    }
+
+    /**
+     * 更新指示器位置
+     * @param currentPositionOfIndicator 当前位置
+     */
+    private void updateCurrentPosition(int currentPositionOfIndicator){
+        this.currentPositionOfIndicator = currentPositionOfIndicator;
+        invalidate();
     }
 
     /**
@@ -107,7 +117,7 @@ public abstract class BaseIndicator extends View implements PagingScrollHelper.o
     }
 
     /**
-     * 设置未选中圆点大小
+     * 设置指示器尺寸
      * @param width 宽
      * @param height 高
      */
@@ -117,12 +127,10 @@ public abstract class BaseIndicator extends View implements PagingScrollHelper.o
         indicatorSelectedWidth = indicatorWidth;
         indicatorSelectedHeight = indicatorHeight;
         if(openIndicatorScale) {
-            //若开启,选中后指示器的宽,高都增加3px.
-            //如果是圆角矩形,则圆角度数是选中后高度的一半.
-            indicatorSelectedWidth = indicatorWidth + 3;
-            indicatorSelectedHeight = indicatorHeight + 3;
-            if(indicatorRadius>0)
-            indicatorRadius = (int) Math.ceil(indicatorSelectedHeight/2f);
+            //若开启,选中后指示器的宽,高和圆角度数均都增加30%.
+            indicatorSelectedWidth = (int) (indicatorSelectedWidth * 1.3);
+            indicatorSelectedHeight = (int) (indicatorSelectedHeight * 1.3);
+            if(indicatorRadius > 0) indicatorRadius = (int) (indicatorRadius * 1.3);
         }
     }
 
@@ -156,15 +164,6 @@ public abstract class BaseIndicator extends View implements PagingScrollHelper.o
      */
     public void setSpace(int space){
         this.space = space;
-    }
-
-    /**
-     * 更新指示器位置
-     * @param currentPositionOfIndicator 当前位置
-     */
-    public void updateCurrentPosition(int currentPositionOfIndicator){
-        this.currentPositionOfIndicator = currentPositionOfIndicator;
-        invalidate();
     }
 
     /**

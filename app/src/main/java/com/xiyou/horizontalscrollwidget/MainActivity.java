@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.xiyou.mylibrary.HorizontalScrollWidget;
-import com.xiyou.mylibrary.indicator.CircleIndicator;
+import com.xiyou.mylibrary.indicator.BaseIndicator;
 import com.xiyou.mylibrary.listener.OnHorizontalItemClickListener;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAdapter(adapter2)
                 .addOnHorizontalItemClickListener(onHorizontalItemClickListener)
                 .setData(mDataList)
-                .setIndicator(new CircleIndicator(this))
+                .setIndicator(new BaseIndicator(this))
                 .build();
     }
 

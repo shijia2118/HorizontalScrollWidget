@@ -51,19 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toTopOf="parent"
-            cus:row_spacing="15dp"
-            cus:background="@drawable/card_bg_r4"
-            cus:attach_to_inner="false"
-            cus:pageMode="true"
-            cus:padding_top="10dp"
-            cus:padding_bottom="10dp"
-            cus:indicator_width="10dp"
-            cus:indicator_height="5dp"
-            cus:indicator_radius="3dp"
-            cus:open_indicator_scale="true"
-            cus:indicator_space="6dp"
-            />
+           />
     </LinearLayout>
 
 </ScrollView>
