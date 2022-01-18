@@ -138,9 +138,7 @@ public class BaseIndicator extends View implements PagingScrollHelper.onPageChan
      * 设置未选中时指示器颜色
      * @param color 指示器颜色
      */
-    public void setNormalColor(int color){
-        mNormalColor = color;
-    }
+    public void setNormalColor(int color){ mNormalColor = color; }
 
     /**
      * 设置选中时指示器颜色
