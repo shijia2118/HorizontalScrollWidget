@@ -102,6 +102,11 @@ horizontalScrollWidget
 | padding\_top              | dimension\|reference | 滑动区域顶部内边距                                                        |
 | padding\_bottom           | dimension\|reference | 滑动区域底部内边距                                                        |
 | pageMode                  | dimension\|reference | 分页模式。若为true，数据按行排序，排满1行，再排下一行；若为false，数据按列排序，排满1列，再排下一列。默认为true。 |
+| indicator_width           | dimension\|reference | 指示器宽度|
+| indicator_height          | dimension\|reference | 指示器高度|
+| indicator_radius          | dimension\|reference | 指示器圆角度数|
+| indicator_space           | dimension\|reference | 指示器间距|
+| open_indicator_scale           | dimension\|reference | 指示器选中后是否需要改变尺寸,默认false|
 
 具体使用请查看demo.
 
