@@ -2,7 +2,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cus="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -51,6 +50,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:background="@drawable/card_bg_r4"
+            cus:padding_top="10dp"
+            cus:padding_bottom="10dp"
+            cus:row_spacing="10dp"
            />
     </LinearLayout>
 
