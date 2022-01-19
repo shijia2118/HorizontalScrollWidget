@@ -50,7 +50,8 @@ public abstract class ColumnBaseAdapter<T> extends RecyclerView.Adapter<MyViewHo
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onHorizontalItemClickListener.onItemClick(position);
+                    if(onHorizontalItemClickListener != null)
+                        onHorizontalItemClickListener.onItemClick(position);
                 }
             });
         }
