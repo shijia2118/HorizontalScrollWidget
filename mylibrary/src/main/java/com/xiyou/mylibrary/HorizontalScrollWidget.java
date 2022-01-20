@@ -60,7 +60,8 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     private int indicatorHeight; //指示器高度
     private int indicatorRadius; //指示器圆角度数
     private int indicatorSpace; //指示器间距
-
+    private int indicatorColor; //指示器未选中时的颜色
+    private int indicatorSelectedColor; //指示器选中时的颜色
 
     private final Context mContext;
     private List<T> mList;
@@ -101,6 +102,8 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         indicatorHeight = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_height,15);
         indicatorRadius = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_radius,8);
         openIndicatorScale = array.getBoolean(R.styleable.HorizontalScrollWidget_open_indicator_scale,false);
+        indicatorColor = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_color,mContext.getResources().getColor(R.color.default_track_color));
+        indicatorSelectedColor = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_indicator_selected_color,mContext.getResources().getColor(R.color.default_thumb_color));
 
         paddingTop = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_padding_top,0);
         paddingLeft = array.getDimensionPixelSize(R.styleable.HorizontalScrollWidget_padding_left,0);
@@ -199,8 +202,8 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         indicator.setLayoutParams(indicatorParams);
 
         indicator.setCount(getPageNum());
-        indicator.setNormalColor(mContext.getResources().getColor(R.color.default_track_color));
-        indicator.setSelectedColor((mContext.getResources().getColor(R.color.default_thumb_color)));
+        indicator.setNormalColor(indicatorColor);
+        indicator.setSelectedColor(indicatorSelectedColor);
         indicator.setOpenIndicatorScale(openIndicatorScale);
         indicator.setIndicatorSize(indicatorWidth,indicatorHeight);
         indicator.setSpace(indicatorSpace);
@@ -225,14 +228,22 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
         adapter.setRecyclerView(recyclerView);
     }
 
+
+    /**
+     * 默认指示器RoundedLinesIndicator
+     */
+    private void getDefaultIndicator(){
+        mIndicator = new RoundedLinesIndicator(mContext);
+        setRoundedLinesIndicator();
+    }
+
     /**
      * item数量小于1页时,隐藏指示器
      */
-    private void setIndicatorVisibility(){
-        if(mIndicator == null) return;
+    private boolean isVisible(){
+        if(mIndicator == null) return false;
         int pageSize = rows * columns;
-        if(mList.size() <= pageSize) mIndicator.setVisibility(GONE);
-        else mIndicator.setVisibility(VISIBLE);
+        return mList.size() > pageSize;
     }
 
     /**
@@ -279,11 +290,14 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     public HorizontalScrollWidget<T,CBA> setData(List<T> list){
         if(list == null) mList = new ArrayList<>();
         else this.mList = list;
-        //设置背景
-        setBackground();
-        setIndicatorVisibility();
+
         if(pageMode) mList = rearrange(mList); //分页模式下,需要重新排序
         adapter.setData(mList);
+        if(mIndicator instanceof BaseIndicator){
+            ((BaseIndicator)mIndicator).notifyDataSetChanged(getPageNum());
+        }else if(mIndicator instanceof RoundedLinesIndicator){
+            ((RoundedLinesIndicator)mIndicator).notifyDataSetChanged(isVisible());
+        }
         return this;
     }
 
@@ -327,10 +341,9 @@ public class HorizontalScrollWidget<T,CBA extends ColumnBaseAdapter<T>> extends 
     }
 
     public void build(){
-        if(mIndicator == null) {
-            mIndicator = new RoundedLinesIndicator(mContext);
-            setRoundedLinesIndicator();
-        }
+        if(mIndicator == null) getDefaultIndicator();
+        //设置背景
+        setBackground();
         addView(recyclerView);
         addView(mIndicator);
     }

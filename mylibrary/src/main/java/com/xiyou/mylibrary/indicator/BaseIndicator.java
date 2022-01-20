@@ -177,6 +177,16 @@ public class BaseIndicator extends View implements PagingScrollHelper.onPageChan
         }
     }
 
+    /**
+     * 数据更新时,刷新页面
+     * @param indicatorNum 页面数
+     */
+    public void notifyDataSetChanged(int indicatorNum){
+        this.indicatorNum = indicatorNum;
+        requestLayout();
+        invalidate();
+    }
+
     @Override
     public void onPageChange(int index) {
         updateCurrentPosition(index);

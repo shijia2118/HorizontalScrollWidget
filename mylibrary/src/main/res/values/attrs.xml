@@ -71,6 +71,12 @@
         <!--指示器选中后是否需要改变尺寸-->
         <attr name="open_indicator_scale" format="boolean"/>
 
+        <!--指示器未选中时的颜色-->
+        <attr name="indicator_color" format="color|reference"/>
+
+        <!--指示器选中时的颜色-->
+        <attr name="indicator_selected_color" format="color|reference"/>
+
     </declare-styleable>
 
 </resources>

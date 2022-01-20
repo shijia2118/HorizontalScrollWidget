@@ -34,6 +34,7 @@ public class RoundedLinesIndicator extends View {
 
     private float canScrollDistance;
     private float mScrollOffset;
+    private boolean enableShow;
 
     private RecyclerView mRecyclerView;
     private OnHorizontalScrollListener onHorizontalScrollListener;
@@ -62,6 +63,7 @@ public class RoundedLinesIndicator extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if(!enableShow)  return;
         //如果传了滚动条的宽(高)度值,则使用所传值;否则使用默认值(即布局widget_layout文件中设定的值).
         scrollBarHeight = scrollBarHeight == 0 ? MeasureSpec.getSize(heightMeasureSpec) : scrollBarHeight;
     }
@@ -69,6 +71,7 @@ public class RoundedLinesIndicator extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if(!enableShow)  return;
         drawTrack(canvas);
         drawThumb(canvas);
     }
@@ -211,6 +214,12 @@ public class RoundedLinesIndicator extends View {
      */
     public void setOnHorizontalScrollListener(OnHorizontalScrollListener listener){
         this.onHorizontalScrollListener = listener;
+    }
+
+    public void notifyDataSetChanged(boolean enableShow){
+        this.enableShow = enableShow;
+        requestLayout();
+        invalidate();
     }
 
     /**
